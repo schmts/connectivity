@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: connectivity
+  name: connectivity
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: connectivity
+  template:
+    metadata:
+      labels:
+        run: connectivity
+    spec:
+      containers:
+      - image: gcr.io/hybrid-matrix-373817/connectivity:latest
+        name: connectivity
+        ports:
+        - containerPort: 8080
