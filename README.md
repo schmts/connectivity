@@ -1,1 +1,1 @@
-
+Simple connectivity test.
