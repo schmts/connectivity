@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/ping')
 def ping():
-    return "I'm pinging in the rain ..."
+    return "<p>I'm pinging in the rain ...</p>"
 
 app.add_url_rule("/", endpoint="ping")
 
