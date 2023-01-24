@@ -4,14 +4,14 @@ steps:
   entrypoint: 'bash'
   args: [
    '-c',
-   'docker pull gcr.io/$PROJECT_ID/connectivity:latest || exit 0'
+   'docker pull gcr.io/$PROJECT_ID/connectivity:$SHORT_SHA || exit 0'
   ]
 # Step 2
 - name: gcr.io/cloud-builders/docker
   args: [
    'build',
    '-t',
-   'gcr.io/$PROJECT_ID/connectivity:latest',
+   'gcr.io/$PROJECT_ID/connectivity:$SHORT_SHA',
    '.'
   ]
   dir: 'connectivity'
@@ -23,23 +23,17 @@ steps:
   - 'CLOUDSDK_CONTAINER_CLUSTER=connectivity-test'
 # Step 4
 - name: 'gcr.io/cloud-builders/kubectl'
-  args: ['rollout', 'restart']
-  env:
-  - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-d'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=connectivity-test'
-# Step 5
-- name: 'gcr.io/cloud-builders/kubectl'
   args: [
    'set',
    'image',
    'deployment',
    'connectivity',
-   'connectivity=gcr.io/$PROJECT_ID/connectivity:latest'
+   'connectivity=gcr.io/$PROJECT_ID/connectivity:$SHORT_SHA'
   ]
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-d'
   - 'CLOUDSDK_CONTAINER_CLUSTER=connectivity-test'
   # Push the image to Google Container Registry with the latest tag
 images: [
-   'gcr.io/$PROJECT_ID/connectivity:latest'
+   'gcr.io/$PROJECT_ID/connectivity:$SHORT_SHA'
   ]
