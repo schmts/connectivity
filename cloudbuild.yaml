@@ -4,7 +4,7 @@ steps:
   entrypoint: 'bash'
   args: [
    '-c',
-   'docker pull gcr.io/$PROJECT_ID/connectivity:latest'
+   'docker pull gcr.io/$PROJECT_ID/connectivity:latest || exit 0'
   ]
 # Step 2
 - name: gcr.io/cloud-builders/docker
@@ -23,7 +23,7 @@ steps:
   - 'CLOUDSDK_CONTAINER_CLUSTER=connectivity-test'
 # Step 4
 - name: 'gcr.io/cloud-builders/kubectl'
-  args: ['rollout', 'restart', 'deployment']
+  args: ['rollout', 'restart', 'deployment', 'connectivity']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-d'
   - 'CLOUDSDK_CONTAINER_CLUSTER=connectivity-test'
