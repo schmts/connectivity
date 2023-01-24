@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def do_ping():
+def ping():
     return ''
 
 if __name__ == '__main__':
