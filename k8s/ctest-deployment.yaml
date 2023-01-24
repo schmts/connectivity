@@ -18,4 +18,4 @@ spec:
       - image: gcr.io/hybrid-matrix-373817/connectivity:latest
         name: connectivity
         ports:
-        - containerPort: 8080/ping
+        - containerPort: 8080
