@@ -7,5 +7,5 @@ app = Flask(__name__)
 def ping():
     return ''
     
-if __name__ == '__main__':
+if __name__ == '__app__':
     app.run(host='0.0.0.0', port=8080)
