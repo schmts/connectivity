@@ -22,7 +22,7 @@ steps:
   args:
   - -c
   - |
-    gcloud artifacts docker images scan us-central1-docker.pkg.dev/$_PROJECT_ID/ods-build-repo/ods-test:latest \
+    gcloud artifacts docker images scan europe-west1-d-docker.pkg.dev/$_PROJECT_ID/ods-build-repo/ods-test:$SHORT_SHA \
     --format='value(response.scan)' > /workspace/scan_id.txt
 # Step 4
 - id: severity check
