@@ -4,7 +4,7 @@ steps:
   entrypoint: 'bash'
   args: [
    '-c',
-   'docker pull gcr.io/$PROJECT_ID/connectivity:$SHORT_SHA || exit 0'
+   'docker pull gcr.io/$PROJECT_ID/connectivity || exit 0'
   ]
 # Step 2
 - name: gcr.io/cloud-builders/docker
