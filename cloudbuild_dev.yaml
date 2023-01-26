@@ -17,7 +17,7 @@ steps:
    'docker pull gcr.io/$PROJECT_ID/connectivity || exit 0'
   ]
 # Step 2.5
-- name: 'gcr.io/$PROJECT_ID/android:30'
+- name: 'gcr.io/$PROJECT_ID/connectivity:$SHORT_SHA'
   id: &code_quality 'Run code quality checks'
   args:
     - '-c'
