@@ -52,7 +52,7 @@ steps:
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-d'
   - 'CLOUDSDK_CONTAINER_CLUSTER=connectivity-test'
-  # Push the image to Google Container Registry with the latest tag
+
 images: [
    'gcr.io/$PROJECT_ID/connectivity:$SHORT_SHA'
   ]
