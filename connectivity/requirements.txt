@@ -1,4 +1,2 @@
 Flask
 pytest
-pycobertura
-nose2
