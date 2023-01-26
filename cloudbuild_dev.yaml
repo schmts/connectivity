@@ -12,8 +12,8 @@ steps:
   entrypoint: python
   args: ["-m", "pytest", "--junitxml=${SHORT_SHA}_test_log.xml"] 
   dir: 'connectivity'
-waitFor:
-- install
+  waitFor:
+  - install
 
 - name: python:3.7
   entrypoint: python3
