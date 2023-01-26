@@ -7,14 +7,25 @@ steps:
   dir: 'connectivity'
   
 # Step 2
+#- name: python
+#  id: unit-test
+#  entrypoint: python
+#  args: ["-m", "pytest", "--junitxml=${SHORT_SHA}_test_log.xml"] 
+#  dir: 'connectivity'
+#  waitFor:
+#  - install
 - name: python
-  id: unit-test
-  entrypoint: python
-  args: ["-m", "pytest", "--junitxml=${SHORT_SHA}_test_log.xml"] 
-  dir: 'connectivity'
+  entrypoint: python3
+  id: unit-tests
+  args:
+  - '-m'
+  - 'nose2'
+  - '-s'
+  - 'functions'
+  - '-c'
+  - 'functions/nose2.cfg'
   waitFor:
-  - install
-        
+  - install        
 - name: python
   entrypoint: python3
   id: coverage-test
@@ -22,7 +33,7 @@ steps:
   - '-c'
   - 'import sys; from pycobertura import Cobertura, TextReporter; cobertura = Cobertura("connectivity/coverage.xml"); tr = TextReporter(cobertura); coverage = tr.generate().split(" ")[-1].strip("%"); print("Coverage OK:",coverage + "% > 90%") if float(coverage) > 90 else sys.exit("Coverage is less than 90%")'
   waitFor:
-  - unit-test
+  - unit-tests
   
 - name: python
   entrypoint: python3
