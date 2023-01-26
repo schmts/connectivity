@@ -21,8 +21,7 @@ steps:
   args:
   - '-c'
   - 'import sys; from pycobertura import Cobertura, TextReporter; cobertura = Cobertura("functions/coverage.xml"); tr = TextReporter(cobertura); coverage = tr.generate().split(" ")[-1].strip("%"); print("Coverage OK:",coverage + "% > 90%") if float(coverage) > 90 else sys.exit("Coverage is less than 90%")'
-  env: 
-    - 'PYTHONPATH=/workspace/lib'
+  dir: 'connectivity'
   waitFor:
   - unit-test
   
