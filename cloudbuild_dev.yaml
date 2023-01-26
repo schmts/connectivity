@@ -15,8 +15,12 @@ steps:
   waitFor:
   - install
 
+- name: python
+        entrypoint: python
+        args: ["-m", "pip", "install", "pycobertura"]
+        
 - name: python:3.7
-  entrypoint: python
+  entrypoint: python3
   id: coverage-test
   args:
   - '-c'
