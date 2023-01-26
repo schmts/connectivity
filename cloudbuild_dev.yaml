@@ -16,6 +16,16 @@ steps:
    '-c',
    'docker pull gcr.io/$PROJECT_ID/connectivity || exit 0'
   ]
+
+# Step 3
+- name: gcr.io/cloud-builders/docker
+  args: [
+   'build',
+   '-t',
+   'gcr.io/$PROJECT_ID/connectivity:$SHORT_SHA',
+   '.'
+  ]
+  dir: 'connectivity'
 # Step 2.5
 - name: 'gcr.io/$PROJECT_ID/connectivity:$SHORT_SHA'
   id: &code_quality 'Run code quality checks'
@@ -27,17 +37,7 @@ steps:
       if [[ "${_PUSH_TO_MASTER}" ]]; then
         ./gradlew -PdisablePreDex dependencyUpdates
       fi
-  dir: 'connectivity'
   
-# Step 3
-- name: gcr.io/cloud-builders/docker
-  args: [
-   'build',
-   '-t',
-   'gcr.io/$PROJECT_ID/connectivity:$SHORT_SHA',
-   '.'
-  ]
-  dir: 'connectivity'
 # Step 4
 - id: scan
   name: gcr.io/google.com/cloudsdktool/cloud-sdk
