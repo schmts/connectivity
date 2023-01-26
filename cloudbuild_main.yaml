@@ -1,17 +1,23 @@
 steps:
 # Step 1
 - name: python
+  entrypoint: pip
+  args: ["install", "-r", "requirements.txt", "--user"]
+  dir: 'connectivity'
+  
+# Step 2
+- name: python
   entrypoint: python
   args: ["-m", "pytest", "--junitxml=${SHORT_SHA}_test_log.xml"] 
   dir: 'connectivity'
-# Step 2
+# Step 3
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: 'bash'
   args: [
    '-c',
    'docker pull gcr.io/$PROJECT_ID/connectivity || exit 0'
   ]
-# Step 3
+# Step 4
 - name: gcr.io/cloud-builders/docker
   args: [
    'build',
@@ -20,7 +26,7 @@ steps:
    '.'
   ]
   dir: 'connectivity'
-# Step 4
+# Step 5
 - id: scan
   name: gcr.io/google.com/cloudsdktool/cloud-sdk
   entrypoint: /bin/bash
@@ -29,7 +35,7 @@ steps:
   - |
     gcloud artifacts docker images scan gcr.io/$PROJECT_ID/connectivity:$SHORT_SHA \
     --format='value(response.scan)' > /workspace/scan_id.txt    
-# Step 5
+# Step 6
 - id: severity check
   name: gcr.io/google.com/cloudsdktool/cloud-sdk
   entrypoint: /bin/bash
@@ -39,13 +45,13 @@ steps:
     gcloud artifacts docker images list-vulnerabilities $(cat /workspace/scan_id.txt) \
     --format='value(vulnerability.effectiveSeverity)' | if grep -Fxq $_SEVERITY; \
     then echo 'Failed vulnerability check' && exit 1; else exit 0; fi
-# Step 6
+# Step 7
 - name: 'gcr.io/cloud-builders/kubectl'
   args: ['apply', '-f', 'k8s/']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-d'
   - 'CLOUDSDK_CONTAINER_CLUSTER=connectivity-test'
-# Step 7
+# Step 8
 - name: 'gcr.io/cloud-builders/kubectl'
   args: [
    'set',
