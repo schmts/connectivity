@@ -6,7 +6,7 @@ steps:
   args: ["install", "-r", "requirements.txt", "--user"]
   dir: 'connectivity'
 
- Step 2
+# Step 2
 - name: python
   id: unit-test
   entrypoint: python
