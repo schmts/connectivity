@@ -3,12 +3,12 @@ steps:
 - name: python
   entrypoint: pip
   args: ["install", "-r", "requirements.txt", "--user"]
-
+  dir: 'connectivity'
 # Step 1
 - name: python
   entrypoint: python
   args: ["-m", "pytest", "--junitxml=${SHORT_SHA}_test_log.xml"] 
-
+  dir: 'connectivity'
 # Step 2
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: 'bash'
