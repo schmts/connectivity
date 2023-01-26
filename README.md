@@ -18,5 +18,13 @@ In the root folder:
 
 Will apply a deployment of the app complete with two pods and the connecting service on the cluster. 
 
+<h2> Testing </h2>
+For testing purposes find yourself back in the connectivity directory and run the unit test.
+
+```
+cd connectivity
+python3 -m pytest
+```
+
 <h3>App resilience:</h3> 
 For app resilience I utilised the built-in auto scaler, which is currently set at minimum 2 and max 10 instances based on CPU usage.
