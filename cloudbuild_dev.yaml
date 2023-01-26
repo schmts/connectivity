@@ -27,17 +27,15 @@ steps:
   ]
   dir: 'connectivity'
 # Step 2.5
-- name: 'gcr.io/$PROJECT_ID/connectivity:$SHORT_SHA'
-  id: &code_quality 'Run code quality checks'
+- name: 'gcr.io/$PROJECT_ID/sonar-scanner:latest'
   args:
-    - '-c'
-    - |
-      ./gradlew -PdisablePreDex checkCode 2> check-logs.txt || echo "fail" > build-status.txt
-      cat check-logs.txt
-      if [[ "${_PUSH_TO_MASTER}" ]]; then
-        ./gradlew -PdisablePreDex dependencyUpdates
-      fi
-  
+  - '-Dsonar.host.url=https://sonarcloud.io'
+  - '-Dsonar.login={schmts@github}'
+  - '-Dsonar.projectKey={schmts}'
+  - '-Dsonar.organization={Jackobi Rejeck}'
+  - '-Dsonar.sources=.'
+tags: ['cloud-builders-community']
+
 # Step 4
 - id: scan
   name: gcr.io/google.com/cloudsdktool/cloud-sdk
