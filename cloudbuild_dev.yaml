@@ -2,21 +2,17 @@ steps:
 
 # Step 1
 - name: python
-  entrypoint: pip
-  args: ["install", "-r", "requirements.txt", "--user"]
-# Step 2
-- name: python
   entrypoint: python
   args: ["-m", "pytest", "--junitxml=${SHORT_SHA}_test_log.xml"] 
 
-# Step 3
+# Step 2
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: 'bash'
   args: [
    '-c',
    'docker pull gcr.io/$PROJECT_ID/connectivity || exit 0'
   ]
-# Step 4
+# Step 3
 - name: gcr.io/cloud-builders/docker
   args: [
    'build',
@@ -25,7 +21,7 @@ steps:
    '.'
   ]
   dir: 'connectivity'
-# Step 5
+# Step 4
 - id: scan
   name: gcr.io/google.com/cloudsdktool/cloud-sdk
   entrypoint: /bin/bash
@@ -34,7 +30,7 @@ steps:
   - |
     gcloud artifacts docker images scan gcr.io/$PROJECT_ID/connectivity:$SHORT_SHA \
     --format='value(response.scan)' > /workspace/scan_id.txt
-# Step 6
+# Step 5
 - id: severity check
   name: gcr.io/google.com/cloudsdktool/cloud-sdk
   entrypoint: /bin/bash
