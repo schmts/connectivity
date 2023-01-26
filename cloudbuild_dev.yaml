@@ -19,8 +19,6 @@ steps:
 # Step 2.5
 - name: 'gcr.io/$PROJECT_ID/android:30'
   id: &code_quality 'Run code quality checks'
-  waitFor:
-    - *assemble_debug
   args:
     - '-c'
     - |
@@ -29,6 +27,7 @@ steps:
       if [[ "${_PUSH_TO_MASTER}" ]]; then
         ./gradlew -PdisablePreDex dependencyUpdates
       fi
+  dir: 'connectivity'
   
 # Step 3
 - name: gcr.io/cloud-builders/docker
