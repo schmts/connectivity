@@ -1,11 +1,21 @@
 steps:
 # Step 1
+#- name: python
+#  id: install
+#  entrypoint: pip
+#  args: ["install", "-r", "requirements.txt", "--user"]
+#  dir: 'connectivity'
 - name: python
   id: install
-  entrypoint: pip
-  args: ["install", "-r", "requirements.txt", "--user"]
-  dir: 'connectivity'
-  
+  entrypoint: python3
+  args:
+  - '-m'
+  - 'pip'
+  - 'install'
+  - '-t'
+  - '.'
+  - '-r'
+  - 'functions/requirements.txt'  
 # Step 2
 #- name: python
 #  id: unit-test
@@ -31,7 +41,7 @@ steps:
   id: coverage-test
   args:
   - '-c'
-  - 'import sys; from pycobertura import Cobertura, TextReporter; cobertura = Cobertura("connectivity/coverage.xml"); tr = TextReporter(cobertura); coverage = tr.generate().split(" ")[-1].strip("%"); print("Coverage OK:",coverage + "% > 90%") if float(coverage) > 90 else sys.exit("Coverage is less than 90%")'
+  - 'import sys; from pycobertura import Cobertura, TextReporter; cobertura = Cobertura("functions/coverage.xml"); tr = TextReporter(cobertura); coverage = tr.generate().split(" ")[-1].strip("%"); print("Coverage OK:",coverage + "% > 90%") if float(coverage) > 90 else sys.exit("Coverage is less than 90%")'
   waitFor:
   - unit-tests
   
