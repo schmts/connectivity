@@ -16,12 +16,11 @@ steps:
   - install
 
 - name: python:3.7
-  entrypoint: python3
+  entrypoint: python
   id: coverage-test
   args:
   - '-c'
   - 'import sys; from pycobertura import Cobertura, TextReporter; cobertura = Cobertura("functions/coverage.xml"); tr = TextReporter(cobertura); coverage = tr.generate().split(" ")[-1].strip("%"); print("Coverage OK:",coverage + "% > 90%") if float(coverage) > 90 else sys.exit("Coverage is less than 90%")'
-  dir: 'connectivity'
   waitFor:
   - unit-test
   
